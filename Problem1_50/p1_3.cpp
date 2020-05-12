@@ -44,3 +44,33 @@ Result:
 Runtime: 16 ms, faster than 57.86% of C++ online submissions for Two Sum.
 Memory Usage: 9.3 MB, less than 74.93% of C++ online submissions for Two Sum..
 */
+
+class Solution {
+private:
+    static bool comparePair(pair<int, int> t1, pair<int, int> t2){
+        return t1.first < t2.first;
+    }
+public:
+    vector<int> twoSum(vector<int>& nums, int target) {
+        vector<pair<int, int>> optimal;
+        for(int i = 0; i < nums.size(); i++){
+            optimal.push_back({nums[i], i});
+        }
+        sort(optimal.begin(), optimal.end(), comparePair);
+        int left = 0;
+        int right = nums.size()-1;
+        int sum;
+        while(left < right){
+            sum = optimal[left].first + optimal[right].first;
+            if(sum == target){
+                return {optimal[left].second, optimal[right].second};
+            }
+            if(sum < target){
+                left++;
+            }else {
+                right--;
+            }
+        }
+        return {};
+    }
+};
