@@ -39,7 +39,7 @@ Note that the answer must be a substring, "pwke" is a subsequence and not a subs
 
 /*
 Solution:
-最长字符子串
+最长无重复字符子串
 使用left/right遍历字符串，并使用unordered_map记录遍历过的字符和对应（索引+1）
 当right端新添加的字符在map中被发现时，说明发生重复，对left的索引更新
 */

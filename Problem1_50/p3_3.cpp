@@ -39,14 +39,40 @@ Note that the answer must be a substring, "pwke" is a subsequence and not a subs
 
 /*
 Solution:
-最长字符子串
-使用left/right遍历字符串，并使用unordered_map记录遍历过的字符和对应（索引+1）
-当right端新添加的字符在map中被发现时，说明发生重复，对left的索引更新
-同p3_1.cpp，利用vecotr<int> charIndexMap(256, -1)代替 unordered_map实现
+最长无重复字符子串
+与前面思想类似，使用int windowChars[128] = {0};记录每个字符在字符串中的（索引+1），
+使用start,end对字符串扫描，当end扫描到的字符在windowChars中出现时（if (windowChars[c] > 0)），
+说明与end重复，找到前一个重复的end字符，并将start到重复end字符间的字符索引清0
 */
 
 /*
 Result:
-Runtime: 8 ms
-Memory Usage: 7.6 MB
+Runtime: 8 ms, faster than 95.04% of C++ online submissions for Longest Substring Without Repeating Characters.
+Memory Usage: 7.1 MB, less than 100.00% of C++ online submissions for Longest Substring Without Repeating Characters.
 */
+
+
+class Solution {
+public:
+    int lengthOfLongestSubstring(string s) {
+        
+        size_t sz = s.length();
+        int start = 0, end = 0, ans = 0, counter = 0;
+        int windowChars[128] = {0};
+        while(end < sz) {
+            int c = (int)(s[end]);
+            if (windowChars[c] > 0) {
+                while(start <= windowChars[c] - 1) {
+                    windowChars[(int)(s[start])] = 0;
+                    start++;
+                }                
+                windowChars[c] = (end++) + 1;
+                continue;
+            }
+            windowChars[c] = end + 1;
+            ans = max(ans, end - start + 1);
+            end++;
+        }
+        return ans;
+    }
+};
