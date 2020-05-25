@@ -71,6 +71,59 @@ Solution:
 
 /*
 Result:
-Runtime: 4 ms, faster than 47.92% of C++ online submissions for Reverse Integer.
-Memory Usage: 5.8 MB, less than 100.00% of C++ online submissions for Reverse Integer.
+Runtime: 4 ms, faster than 78.37% of C++ online submissions for String to Integer (atoi).
+Memory Usage: 6.2 MB, less than 100.00% of C++ online submissions for String to Integer (atoi).
 */
+
+class Solution {
+public:
+    int myAtoi(string str) {
+        
+        long long ans = 0;
+        bool isFirst = true;
+        int symbol = 1;
+        for(int i = 0; i < str.size(); ++i)
+        {
+            int ascii = int(str[i]);
+            if((ascii == 32) && isFirst)
+            {
+                continue;
+            }
+            else if((ascii == 32) && !isFirst)
+            {
+                break;
+            }
+            if(((ascii == 45) || (ascii == 43)) && isFirst)
+            {
+                symbol = 44 - ascii;
+                isFirst = false;
+                continue;
+            }
+            else if(((ascii == 45) || (ascii == 43)) && !isFirst)
+            {
+                break;
+            }
+            if(ascii >= 48 && ascii <= 57)
+            {
+                ans = ans * 10 + ascii - 48;
+                isFirst = false;
+                if(ans*symbol > INT_MAX)
+                {
+                    return INT_MAX;
+                }
+                else if(ans*symbol < INT_MIN)
+                {
+                    return INT_MIN;
+                }
+            }
+            else
+            {
+                break;
+            }
+                
+        }
+        ans = ans * symbol;
+        return ans;
+       
+    }
+};
