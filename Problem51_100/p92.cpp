@@ -69,7 +69,8 @@ public:
         {
             return reverseN(head, n);
         }
-        
+        head->next = reverseBetween(head->next, m-1, n-1);
+        return head;
     }
 
 };
