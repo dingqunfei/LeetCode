@@ -48,3 +48,28 @@ public:
 };
 */
 
+class Solution {
+public:
+    ListNode *tailList = NULL;
+
+    ListNode* reverseN(ListNode* head, int N) {
+        if(N == 1)
+        {
+            tailList = head->next;
+            return head;
+        }
+        ListNode *last = reverseN(head->next, N-1);
+        head->next->next = head;
+        head->next = tailList;
+        return last;
+    }
+
+    ListNode* reverseBetween(ListNode* head, int m, int n) {
+        if(m == 1)
+        {
+            return reverseN(head, n);
+        }
+        
+    }
+
+};
