@@ -1,27 +1,3 @@
-/**
- * @file p146_1.cpp
- * @brief 
- * @author dingqunfei (dqflying@gmail.com)
- * @version 1.0
- * @date 2021-04-18
- * 
- * @copyright Copyright (c) 2021 DQFLYING
- * 
- * @par :
- * 
- * 
- * Date        : 2021-04-18
- * Version     : 1.0
- * Author      : dqflying
- * Lisence     : 
- * Description : 
- * 
- * 
- * 
- * 
- */
-
-
 class Node{
 public:
     int key;
@@ -96,15 +72,66 @@ public:
     }
     
     int get(int key) {
-
+        //不存在
+        if(lruMap.find(key) == lruMap.end())
+        {
+            return -1;
+        }
+        
+        makeRecently(key);
+        return lruMap[key]->val;
     }
     
     void put(int key, int value) {
+        //存在
+        if(lruMap.find(key) != lruMap.end())
+        {
+            deleteKey(key);
+            addRecently(key, value);
+        }
+        else
+        {
+            addRecently(key, value);
+            if(cache.get_size() > cap)
+            {
+                removeLeastRecently();
+            }
+        }
 
     }
+
+private:
+    void makeRecently(int key)
+    {
+        Node *x = lruMap[key];
+        cache.remove(x);
+        cache.addLast(x);
+    }
+
+    void addRecently(int key, int val)
+    {
+        Node *x = new Node(key, val);
+        lruMap.insert(make_pair(key, x));
+        cache.addLast(x);
+    }
+
+    void deleteKey(int key)
+    {
+        Node *x = lruMap[key];
+        cache.remove(x);
+        lruMap.erase(key);
+    }
+
+    void removeLeastRecently()
+    {
+        Node *delNode = cache.removeFirst();
+        int key = delNode->key;
+        lruMap.erase(key);
+    }
+
 private:
     DoubleList cache;
-    hash_map<int, Node *> lruMap;
+    map<int, Node *> lruMap;
     int cap;
 };
 
