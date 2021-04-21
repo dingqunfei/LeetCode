@@ -105,7 +105,7 @@ public:
         int right = findLastTarget(nums, target);
         //if(left <= right && right < nums.size() && nums[left] == target && nums[right] == target)
         
-            return {left, right};
+        return {left, right};
         
     }   
 };
