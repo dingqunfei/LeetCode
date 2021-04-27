@@ -25,7 +25,8 @@
 class Solution {
 public:
     string minWindow(string s, string t) {
-        map<char, int> needs, window;
+
+        unordered_map<char, int> needs, window;
         for(auto i: t)
         {
             ++needs[i];
@@ -34,14 +35,15 @@ public:
         int lhs = 0, rhs = 0;
         int vaild = 0;
         int start = 0, len = INT_MAX;
+
         while(rhs < s.size())
         {
-            char tmp = s[rhs];
+            char a = s[rhs];
             ++rhs;
-            if(needs.count(tmp))
+            if(needs.count(a))
             {
-                ++window[tmp];
-                if(window[tmp] == needs[tmp])
+                ++window[a];
+                if(needs[a] == window[a])
                 {
                     ++vaild;
                 }
@@ -51,22 +53,31 @@ public:
             {
                 if(rhs - lhs < len)
                 {
-                    start = lhs;
                     len = rhs - lhs;
+                    start = lhs;
                 }
-                char d = s[lhs];
+                char b = s[lhs];
                 ++lhs;
-                if(needs.count(d))
+                if(needs.count(b))
                 {
-                    if(needs[d] == window[d])
+                    //换一种写法
+                    #if 0
+                    --window[b];
+                    if(window[b] < needs[b])
                     {
                         --vaild;
                     }
-                    --window[d];
+                    #else
+                    if(window[b] == needs[b])
+                    {
+                        --vaild;
+                    }
+                    --window[b];
+                    #endif
                 }
-                
             }
         }
-        return (len == INT_MAX) ?"":s.substr(start, len);
+        return len == INT_MAX ? "" : s.substr(start, len);
+
     }
 };
