@@ -27,7 +27,8 @@
 class Solution {
 private:
     set<string> res;
-    void backtrack(string track, int n)
+    //string &track 引用，内存占用减少
+    void backtrack(string &track, int n)
     {
         if(track.size() == 2*n)
         {
