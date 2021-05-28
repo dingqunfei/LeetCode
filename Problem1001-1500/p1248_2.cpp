@@ -38,3 +38,28 @@ public:
         return ans;
     }
 };
+
+
+
+
+//my version
+class Solution {
+public:
+    int numberOfSubarrays(vector<int>& nums, int k) {
+        int size = nums.size();
+        vector<int> preOddFreq(size+1, 0);
+        int times = 0;
+        int num = 0;
+        preOddFreq[0] = 1;
+        for(int i = 0; i < size; ++i)
+        {
+            times += nums[i]%2;
+            if(times-k > -1)
+            {
+                num += preOddFreq[times-k];
+            }
+            ++preOddFreq[times];
+        }
+        return num;
+    }
+};
