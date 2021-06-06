@@ -22,7 +22,7 @@
  */
 
 
-//接近超时的算法
+//接近超时的算法，未超时
 class Solution {
 private:
     int count;
@@ -45,6 +45,39 @@ public:
         count = 0;
         int track = 0;
         backtrack(nums, track, 0, target);
+        return count;
+    }
+};
+
+
+
+//超时算法
+class Solution {
+private:
+    int count;
+    void backtrack(vector<int> &nums, int start, int rest)
+    {
+        if(start == nums.size())
+        {
+            if(rest == 0)
+            {
+                count += 1;
+            }
+            return;
+        }
+        
+        rest += nums[start];
+        backtrack(nums, start+1, rest);
+        rest -= nums[start];
+
+        rest -= nums[start];
+        backtrack(nums, start+1, rest);
+        rest += nums[start];
+    }
+public:
+    int findTargetSumWays(vector<int>& nums, int target) {
+        count = 0;
+        backtrack(nums, 0, target);
         return count;
     }
 };
