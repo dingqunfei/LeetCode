@@ -62,3 +62,41 @@ public:
         return count;
     }
 };
+
+
+
+//优化效率
+class Solution {
+public:
+    int maxEnvelopes(vector<vector<int>>& envelopes) {
+        int size = envelopes.size();
+        if(size < 1)
+        {
+            return 0;
+        }
+        //对于宽度w相同的数对，要对其高度h进行降序排序
+        //因为两个宽度相同的信封不能相互包含的，而逆序排序保证在w相同的数对中最多只选取一个计入 
+        sort(envelopes.begin(), envelopes.end(), [](auto &a, auto &b){return (a[0] == b[0])?(a[1]>b[1]):a[0]<b[0];});
+
+        //此时转换为求最长递增子序列问题
+        //dp[i]是以i为结尾的最长递增子序列的长度
+        vector<int> dp(size, 0);
+        dp[0] = 1;
+        for(int i = 1; i < size; ++i)
+        {
+                int temp = i-1;
+                int larger = 0;
+                while(temp >= 0)
+                {
+                    if(envelopes[i][1] > envelopes[temp][1])
+                    {
+                        larger = (dp[temp] > larger)? dp[temp]:larger;
+                    }
+                    --temp;
+                }
+                dp[i] = larger+1;
+        }
+        
+        return *(max_element(dp.begin(), dp.end()));
+    }
+};
