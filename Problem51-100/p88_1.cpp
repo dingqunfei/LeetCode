@@ -42,7 +42,6 @@ public:
                 --len;
             }
         }
-        if(r > -1)
         while(r > -1)
         {
             nums1[len] = nums2[r];
