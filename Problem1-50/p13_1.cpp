@@ -75,3 +75,68 @@ Solution:
 Result:
 
 */
+
+class Solution {
+public:
+    int romanToInt(string s) {
+        int size = s.size();
+        int ans = 0;
+        char lastChar = ' ';
+        for(int i = size-1; i >= 0; --i)
+        {
+            switch(s[i])
+            {
+                case 'I':
+                    if(lastChar == 'V' || lastChar == 'X')
+                    {
+                        ans -= 1;
+                    }
+                    else
+                    {
+                        ans += 1;
+                        lastChar = s[i];
+                    }
+                    break;
+                case 'V':
+                    ans += 5;
+                    lastChar = s[i];
+                    break;
+                case 'X':
+                    if(lastChar == 'L' || lastChar == 'C')
+                    {
+                        ans -= 10;
+                    }
+                    else
+                    {
+                        ans += 10;
+                        lastChar = s[i];
+                    }
+                    break;
+                case 'L':
+                    ans += 50;
+                    lastChar = s[i];
+                    break;
+                case 'C':
+                    if(lastChar == 'D' || lastChar == 'M')
+                    {
+                        ans -= 100;
+                    }
+                    else
+                    {
+                        ans += 100;
+                        lastChar = s[i];
+                    }
+                    break;
+                case 'D':
+                    ans += 500;
+                    lastChar = s[i];
+                    break;
+                case 'M':
+                    ans += 1000;
+                    lastChar = s[i];
+                    break;
+            }
+        }
+        return ans;
+    }
+};
