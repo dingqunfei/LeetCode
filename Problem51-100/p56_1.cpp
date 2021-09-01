@@ -50,3 +50,37 @@ public:
         return intervals;
     }
 };
+
+
+
+//改进，通过，较慢
+class Solution {
+public:
+    vector<vector<int>> merge(vector<vector<int>>& intervals) {
+        sort(intervals.begin(), intervals.end(), [](vector<int> a, vector<int> b){return a[0]<b[0];});
+        int size = intervals.size();
+        if(size < 2)
+        {
+            return intervals;
+        }
+        int i = 1;
+        vector<vector<int>> ans;
+        vector<int> temp = intervals[0];
+        while(i < size)
+        {
+            if(temp[1] >= intervals[i][0])
+            {
+                temp[1] = max(temp[1], intervals[i][1]);
+                ++i;
+            }
+            else
+            {
+                ans.push_back(temp);
+                temp = intervals[i];
+                ++i;
+            }
+        }
+        ans.push_back(temp);
+        return ans;
+    }
+};
