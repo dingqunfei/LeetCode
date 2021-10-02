@@ -42,6 +42,5 @@ public:
             dp[i][1] = dp[i-1][0]+sum[i];
         }
         return max(dp[size-1][0], dp[size-1][1]);
-        
     }
 };
