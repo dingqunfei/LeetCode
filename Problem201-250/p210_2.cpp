@@ -1,5 +1,6 @@
 class Solution {
 public:
+    vector<int> onpath;
     bool traverse(vector<vector<int>>& preCourses, int start, vector<bool>& visited, vector<bool>& checked)
     {
         if(checked[start])
@@ -20,23 +21,25 @@ public:
         }
         visited[start] = false;
         checked[start] = true;
+        onpath.push_back(start);
         return true;
     }
-    bool canFinish(int numCourses, vector<vector<int>>& prerequisites) {
+    vector<int> findOrder(int numCourses, vector<vector<int>>& prerequisites) {
         vector<bool> visited(numCourses, false);
         vector<vector<int>> preCourses(numCourses, vector<int>());
         vector<bool> checked(numCourses, false);
         for(auto item: prerequisites)
         {
-            preCourses[item[1]].push_back(item[0]);
+            preCourses[item[0]].push_back(item[1]);
         }
         for(int i = 0; i < numCourses; ++i)
         {
             if(!traverse(preCourses, i, visited, checked))
             {
-                return false;
+                return vector<int>();
             }
         }
-        return true;
+        return onpath;
     }
+
 };
